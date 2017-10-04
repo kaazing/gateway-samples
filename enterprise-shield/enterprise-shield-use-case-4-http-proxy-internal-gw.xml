@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gateway-config xmlns="http://xmlns.kaazing.org/2015/11/gateway">
+
+  <service>
+    <name>Simple HTTP proxy</name>
+    <accept>http://internal.example.com:8000/</accept>
+    <connect>http://server.kaazing.test</connect>   
+    <type>http.proxy</type>
+
+    <accept-options>
+      <http.transport>socks://internal.example.com</http.transport>
+      <socks.mode>reverse</socks.mode>
+      <socks.retry.maximum.interval>5 seconds</socks.retry.maximum.interval>
+      <ws.inactivity.timeout>30 seconds</ws.inactivity.timeout>
+      <http.keepalive.timeout>40 seconds</http.keepalive.timeout>
+    </accept-options>
+  </service>
+  
+  <service>
+    <name>Secure HTTP Proxy</name>
+    <accept>https://internal.kaazing.test/resource/</accept>
+    <connect>https://server.kaazing.test/internal/</connect>
+    <type>http.proxy</type>
+
+    <accept-options>
+      <http.transport>socks://internal.kaazing.test</http.transport>
+      <socks.mode>reverse</socks.mode>
+      <socks.retry.maximum.interval>5 seconds</socks.retry.maximum.interval>
+      <socks.transport>wss://example.kaazing.test/internal</socks.transport>
+      <ws.inactivity.timeout>30 seconds</ws.inactivity.timeout>
+    </accept-options>
+  </service>
+
+  <security>
+    <keystore>
+      <type>JCEKS</type>
+      <file>keystore.db</file>
+      <password-file>keystore.pw</password-file>
+    </keystore>
+    <truststore>
+      <type>JCEKS</type>
+      <file>truststore.db</file>
+    </truststore>
+  </security>
+
+</gateway-config>

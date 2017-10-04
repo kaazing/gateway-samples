@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gateway-config xmlns="http://xmlns.kaazing.org/2015/11/gateway">
+
+  <service>
+    <name>Simple HTTP Proxy</name>
+    <description>DMZ HTTP proxy service</description>
+    <accept>http://kaazing.example.com:9999/index.html/</accept>
+    <connect>http://internal.example.com:8000/</connect>
+
+    <type>http.proxy</type>
+
+    <connect-options>
+      <http.transport>socks://kaazing.example.com</http.transport>
+      <socks.mode>reverse</socks.mode>
+      <socks.timeout>5 seconds</socks.timeout>
+    </connect-options>
+  </service>
+  
+  <service>
+    <name>Secure HTTP Proxy</name>
+
+    <accept>https://example.kaazing.test/resource/</accept>
+    <connect>https://internal.kaazing.test/resource/</connect>
+    <type>http.proxy</type>
+
+    <connect-options>
+      <http.transport>socks://internal.kaazing.test</http.transport>
+      <socks.mode>reverse</socks.mode>
+      <socks.timeout>5 seconds</socks.timeout>
+      <socks.transport>wss://example.kaazing.test/resource/</socks.transport>
+      <ws.inactivity.timeout>30 seconds</ws.inactivity.timeout>
+    </connect-options>
+  </service>
+
+  <security>
+    <keystore>
+      <type>JCEKS</type>
+      <file>keystore.db</file>
+      <password-file>keystore.pw</password-file>
+    </keystore>
+    <truststore>
+      <type>JCEKS</type>
+      <file>truststore.db</file>
+    </truststore>
+  </security>
+
+</gateway-config>
